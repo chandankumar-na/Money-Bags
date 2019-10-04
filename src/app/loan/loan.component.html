@@ -1,0 +1,225 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button id="nav_btn" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+    data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- <a class="navbar-brand" routerLink="/home">H! {{ userDetails.cust_name }}</a> -->
+  <a class="navbar-brand"> <img id="money_img2" src="./../assets/images/moneybags_logo.png"></a>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul style="float: right;" class="navbar-nav mr-auto">
+      <li style="margin-top: 15px;"><a [routerLink]="['/home']"> Home</a></li>
+      <li>
+          <a class="navbar-brand"> {{user_name}}</a>
+        </li>
+      
+      <li>
+
+        <a class="navbar-brand" (click)="logout()"> Logout <span><i class="fa fa-sign-out"
+              aria-hidden="true"></i></span></a>
+      </li>
+    </ul>
+  </div>
+
+</nav>
+
+<!-- ================================================================================== -->
+
+
+
+
+<div class="container-fluid">
+
+
+  <div class="main" style="margin-top:2%;">
+    <div class="container content">
+
+      <div class="row">
+        <div class=" col-md-3"></div>
+
+        <div class="input-group col-md-6 col-sm-6">
+
+          <input [(ngModel)]="search_query" id="search_query_input" title="Type here" name="search_query" type="text"
+            class="search-query form-control" placeholder="Search Loan" />
+          <span class="input-group-btn">
+            <button style="background-color: #7ad0c7;" (click)="showAddLoan()" type="button"
+              class="btn btn-add show-modal" title="Click here to add ">
+              <span class=" glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-sm-0 col-md-3">
+    </div>
+    <div id="main_list" class="col-sm-12 col-md-6 main_list">
+      <div *ngFor="let item of loans | loanSearch : search_query; let i=index " style="margin-top: 10px;" class="accordion" id="accordionExample">
+
+        <div id="card1" class="card">
+
+          <div class="panel-heading cust_head" role="tab" [id]="'heading'+i">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="accordion" [href]="'#collapse'+i"
+                aria-expanded="true" [attr.aria-controls]="'collapse'+i">
+
+                <span id="index">{{i+1}}.</span>
+                <span id="cust_name1"><b>{{item.cust_name | firstName}}</b></span>
+                <span id="date1">{{item.cust_tran_date | date: 'dd/MM/yyyy'}}</span>
+
+                <i style="float: right;color: red;" (click)="deleteLoan(i,item.cust_tran_id)"
+                title="click here to delete" id="delete" class="fa fa-trash-o"></i>
+                <span id="cust_amount1"><b>({{item.cust_tran_balance}}) {{item.cust_tran_amount}}/-</b></span>
+              </a>
+            </h4>
+          </div>
+
+          <div [id]="'collapse'+i" class="panel-collapse collapse" role="tabpanel" [attr.aria-labelledby]="'heading'+i">
+            <div id="scroll2" style="overflow-y: scroll; height:400px;" class="panel-body">
+
+              <div *ngFor="let instalment_date of item.cust_tran_instalment_dates;let i1=index;"
+                [id]="item.cust_tran_paid_flags[i1] =='Paid' && item.cust_tran_paid_flags[i1+1] =='Pay' ? 'scroll_target' : ''"
+                style="margin-top: 5px;" class="accordion">
+                <div [class.bg-success]="item.cust_tran_paid_flags[i1] == 'Paid'"
+                  [class.bg-info]="item.cust_tran_paid_flags[i1] == 'Pay'"
+                  [class.bg-danger]="item.cust_tran_paid_flags[i1] == 'Pay' && (item.cust_tran_start_date | custDate:i1 )  < ( tday) && (item.cust_tran_start_date | custDate:i1 | date: 'dd/MM/yyyy')  != ( tday | date:'dd/MM/yyyy')"
+                  [class.bg-warning]=" item.cust_tran_paid_flags[i1] == 'Pay' && (item.cust_tran_start_date | custDate:i1 | date: 'dd/MM/yyyy')  == ( tday | date:'dd/MM/yyyy')"
+                  class="card cust_card2">
+
+                  
+                  <!-- <p>{{ipAddress}}</p>
+                  <p>{{device_id}}</p> -->
+                  <!-- <p>{{device_details.os_version}}</p>
+                  
+                  <p>{{device_details.device}}</p>
+
+                  <p>{{device_details.browser}}</p>
+                  
+                  <p>{{device_details.browser_version}}</p>
+
+                  <p>{{device_details.userAgent}}</p> -->
+                  
+                  
+
+                  <div class="panel-heading cust_head" role="tab">
+                    <h4 class="panel-title">
+                      <div ata-parent="accordion" aria-expanded="true">
+                        <span id="index">{{i1+1}}.</span>
+                        <span id="amount2"><b>{{item.cust_tran_monthly_amount}}</b></span>
+                        <span id="date2">{{item.cust_tran_start_date | custDate:i1 | date: 'dd/MM/yyyy'}} <b
+                            *ngIf="instalment_date!=null"> @ {{ instalment_date | date: 'dd/MM'}}
+                            {{item.cust_tran_ip_address[i1]}}</b></span>
+                        <span clss="btn btn-primary btn-sm"
+                          (click)="payOrPaid(i,i1,item.cust_tran_date,item.cust_tran_id,item.cust_tran_monthly_amount,item.cust_tran_paid_flags[i1])"
+                          id="paid_pay2" #pay_paid> <a id="pay_btn" class="btn btn-default mce-btn-small"><span
+                              id="pay_txt"></span>{{item.cust_tran_paid_flags[i1]}}</a></span>
+                      </div>
+                    </h4>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-sm-0 col-md-3">
+    </div>
+
+  </div>
+
+
+
+
+</div>
+
+
+
+
+<!-- add cust model -->
+<div id="testmodal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form (ngSubmit)="addeLoan()">
+        <div class="modal-header">
+          <h3 class="modal-title"><b>Add Loan</b></h3>
+          <button id="close_btn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+
+
+          <div class="form-group">
+            <h4> <label for="name">Customer Name:</label></h4>
+
+            <div class="input-group-btn">
+              <input [(ngModel)]="query" name="query" type="text" class="form-control dropdown-toggle"
+                data-toggle="dropdown" aria-expanded="false">
+              <ul style="width: 100%;" class="dropdown-menu" role="menu">
+                <li *ngFor="let item of searchRes | search : query"><a
+                    (click)="selectedCustId(item.cust_id,item.cust_name)">{{item.cust_name}}</a></li>
+              </ul>
+            </div><!-- /btn-group -->
+
+
+          </div>
+
+
+
+          <div class="form-group">
+            <h4> <label for="name">Amount:&nbsp;&nbsp;&nbsp;&nbsp; <b style="color: blue; float: right;"> Balance
+                  {{userTransactionDetails.user_in_hand_cash}} Rs.</b><p style="color: red;">{{bal_error}}</p> </label></h4>
+            <input type="text" class="form-control txtbox" id="cust_tran_amount"
+              [(ngModel)]="customerTransactionDetails.cust_tran_amount" name="cust_tran_amount"
+              placeholder="Enter amount" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="name">Rate of Interest:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_tran_interest"
+              [(ngModel)]="customerTransactionDetails.cust_tran_interest" name="cust_tran_interest"
+              placeholder="Rate of interest in %" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="name">Number of instalments:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_tran_total_instalments"
+              [(ngModel)]="customerTransactionDetails.cust_tran_total_instalments" name="cust_tran_total_instalments"
+              placeholder="Enter instalments" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="name">Date:</label></h4>
+            <input type="date" class="form-control txtbox" id="cust_tran_date"
+              [(ngModel)]="customerTransactionDetails.cust_tran_date" name="cust_tran_date"
+              placeholder="Enter instalments" required>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- /add cust model -->

@@ -1,0 +1,179 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button id="nav_btn" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+    data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- <a class="navbar-brand" routerLink="/home">H! {{ userDetails.cust_name }}</a> -->
+  <a class="navbar-brand"> <img id="money_img2" src="./../assets/images/moneybags_logo.png"></a>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul style="float: right;" class="navbar-nav mr-auto">
+      <li style="margin-top: 15px;"><a [routerLink]="['/home']"> Home</a></li>
+      <li><a class="navbar-brand"> {{user_name}} </a></li>
+      <li>
+
+        <a class="navbar-brand" (click)="logout()"> Logout <span><i class="fa fa-sign-out"
+              aria-hidden="true"></i></span></a>
+      </li>
+    </ul>
+  </div>
+
+</nav>
+
+<!-- ================================================================================== -->
+<div class="container-fluid">
+
+  <!-- <div id="element" (click)="showCapital()" class="btn btn-default show-modal">show modal</div> -->
+
+
+  <div class="main" style="margin-top:2%;">
+    <div class="container content">
+
+      <div class="row">
+        <div class=" col-md-3"></div>
+
+        <div class="input-group col-md-6 col-sm-6">
+
+          <input id="search_query_input" [(ngModel)]="search_query" title="Type here" name="search_query" type="text"
+            class="search-query form-control" placeholder="Search Customer" />
+          <span class="input-group-btn">
+            <button style="background-color: #7ad0c7;" (click)="showAddCustomer()" type="button"
+              class="btn btn-add show-modal" title="Click here to add ">
+              <span class=" glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 8px" class="row container-fluid">
+    <div class=" col-md-3"></div>
+
+    <div class="input-group col-md-6 col-sm-6">
+      <div id="panel-group">
+        <div *ngFor="let item of customers | search: search_query ;let i=index;" style="margin-bottom: 8px;" class="panel panel-default">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+
+              <span>
+                <i id="check1" class="fa fa-dot-circle-o" style="font-size:15px;color:#667558"></i>
+              </span>
+              <b (click)="showCustomer(i,item.cust_id,item.cust_name)" >&nbsp;&nbsp;{{item.cust_name}}</b>
+
+
+              <i style="float: right;color: red;" (click)="deleteCustomer(i,item.cust_id)" title="click here to delete"
+                id="delete" class="fa fa-trash-o" aria-hidden="true"></i>
+
+              <i style="float: right;margin-right: 10px;color: green;" [id]="item.cust_id"
+                (click)="showUpdateCustomer(i,item.cust_id)" title="click here to edit" class="edit fa fa-edit"></i>
+            </h5>
+
+
+          </div>
+        </div>
+        <!--for -->
+
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+
+</div>
+
+<!-- add cust model -->
+<div id="testmodal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form (ngSubmit)="addOrUpdateCustomer()">
+        <div class="modal-header">
+          <h3 class="modal-title"><b>{{add_update_cust}}</b></h3>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <h4> <label for="name">Full Name:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_name" [(ngModel)]="customerDetails.cust_name"
+              name="cust_name" placeholder="Enster full name" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="phone">Phone Number:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_phone" [(ngModel)]="customerDetails.cust_phone"
+              name="cust_phone" placeholder="Enter phone" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="aadhaar">Aadhaar Number:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_aadhaar" [(ngModel)]="customerDetails.cust_aadhaar"
+              name="cust_aadhaar" placeholder="Enter aadhaar" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="address">Address:</label></h4>
+            <textarea class="form-control txtbox" id="cust_address" [(ngModel)]="customerDetails.cust_address"
+              name="cust_address" placeholder="Enter address" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- /add cust model -->
+
+
+
+<!-- add cust model -->
+<div id="customer_details_modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form >
+        <div class="modal-header">
+          <h3 class="modal-title"><b>{{add_update_cust}}</b></h3>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <h4> <label for="name">Full Name:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_name" [(ngModel)]="customerDetails.cust_name"
+              name="cust_name" placeholder="Enster full name" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="phone">Phone Number:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_phone" [(ngModel)]="customerDetails.cust_phone"
+              name="cust_phone" placeholder="Enter phone" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="aadhaar">Aadhaar Number:</label></h4>
+            <input type="text" class="form-control txtbox" id="cust_aadhaar" [(ngModel)]="customerDetails.cust_aadhaar"
+              name="cust_aadhaar" placeholder="Enter aadhaar" required>
+          </div>
+
+          <div class="form-group">
+            <h4> <label for="address">Address:</label></h4>
+            <textarea class="form-control txtbox" id="cust_address" [(ngModel)]="customerDetails.cust_address"
+              name="cust_address" placeholder="Enter address" required></textarea>
+          </div>
+        </div>
+       
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- /add cust model -->

@@ -1,0 +1,5 @@
+{
+    "url": {
+        "mongoDB": "mongodb://moneybags:MoneyBags123@ds261136.mlab.com:61136/money-bags"
+    }
+}

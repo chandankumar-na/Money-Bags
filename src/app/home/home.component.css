@@ -1,0 +1,54 @@
+#testmodal{
+  margin-top: 100px;
+}
+
+#money_img2{
+  margin-top: -20px;
+  width: 260px;
+  height: 60px;
+  
+  margin-left: -25px;
+}
+#nav_btn{
+  height: 50px;
+  width: 50px;
+  /* margin-left: -25px; */
+}
+
+#myCarousel{
+  margin-top: -20px;
+}
+
+
+.carousel-inner img {
+  width: 100%; /* Set width to 100% */
+  margin: auto;
+  min-height:200px;
+}
+
+/* Hide the carousel text when the screen is less than 600 pixels wide */
+@media (max-width: 600px) {
+.carousel-caption {
+  display: none; 
+}
+
+}
+
+.cust_height{
+  margin-top: 10px;
+  height: 1px;
+}
+.h5{
+  font-family: -webkit-pictograph;
+}
+
+.well{
+  background-color: #ddd;
+}
+#what{
+  color: #ccc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+

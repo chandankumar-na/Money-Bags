@@ -1,0 +1,30 @@
+#testmodal{
+    margin-top: 65px;
+  }
+  
+  /* Mobile Styles */
+/* @media only screen and (max-width: 400px) {
+  #testmodal{
+    margin-top: 70px;
+  }
+} */
+
+  #money_img2{
+    margin-top: -20px;
+    width: 260px;
+    height: 60px;
+    
+    margin-left: -25px;
+  }
+  #nav_btn{
+    height: 50px;
+    width: 50px;
+    /* margin-left: -25px; */
+  }
+  
+
+  #search_query_input{
+    width: 100%;
+    height: 34px;
+    /* margin-left: 3%; */
+  }
